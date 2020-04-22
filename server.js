@@ -8,6 +8,7 @@ const app = express();
 const bodyParser = require('body-parser');
 const low = require('lowdb');
 const FileSync = require('lowdb/adapters/FileSync');
+const shortid = require('shortid');
 
 const adapter = new FileSync('db.json');
 const db = low(adapter);
@@ -48,9 +49,17 @@ app.get('/todos', function(req, res) {
 });
 
 app.post('/todos/create', function(req, res) {
-  db.get('todos').push(req.body).write();
+  var todo = req.body;
+  todo.id = shortid.generate();
+  db.get('todos').push().write();
   res.redirect('/todos');
 })
+
+app.get('/todos/:id/delete', function(req, res){
+  db.get('todos').remove(req.params).write();
+  res.redirect('/todos');
+});
+
 // listen for requests :)
 app.listen(process.env.PORT, () => {
   console.log("Server listening on port " + process.env.PORT);
