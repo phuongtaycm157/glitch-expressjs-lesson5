@@ -1,7 +1,7 @@
 h1 Todos
 
 form(action="/todos/create" method="POST")
-  input(type="text" name="todo")
+  input(type="text" name="text")
   button(type="submit") Create
 
 form(action="/todos" method="get")
@@ -10,4 +10,4 @@ form(action="/todos" method="get")
 
 ul
   each todo in todos
-    li= todo.todo
+    li= todo.text
